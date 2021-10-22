@@ -5,7 +5,6 @@
 using namespace std;
 
 double f(double x);
-double u(int y);
 
 int main() {
 	int n, n1;
@@ -23,24 +22,12 @@ int main() {
 	n1 = n;
 
 	for (n = 0 ; n <= n1; n++) {
-		res = f(1.0 + 2 * t) + pow(f( f(1) + 2 * f(2 * t)), 2);
+		res = f(1.0 + 2.0 * t) + pow(f( f(1.0) + 2.0 * f(2.0 * t)), 2);
 		cout << "|" << setw(5) <<   n   << "|" << setw(11) << setprecision(6) << t   << "|" << setw(11) << setprecision(6) <<   f(t)   << "|" << setw(11) << setprecision(6) <<  res  << "|\n" << "-------------------------------------------\n";
 		t += dt;
 	}
 
-
-
 	return 0;
-}
-
-double u(int y){					//factorial function
-	double fact = 1.0;
-	double tt = 4.0*y + 1.0;
-	while (tt > 0) {
-		fact *= 4 * tt + 1;
-		tt--;
-	}
-	return fact;
 }
 
 
@@ -49,11 +36,13 @@ double f(double x) {				//main function
 		return (pow(sin(x), 2) + sin(x * x)) / (1 + pow(cos(x), 2));
 	}
 	else {
-		double sp = 0.0;
-		double s = 0.0;
-		for (int n = 0; n <= 6; n++) {
-			sp += pow(x, 4 * n + 1)/u(n);  
+		double a = 1.;
+		double s = a;
+		for (int j = 0; j <= 6; j++) {
+			double r = pow(x, 4) / (8.0 * j * (32.0 * j * j * j - 16.0 * j * j - 2.0 * j + 1.0));
+			a *= r;
+			s += a;
 		}
-		return  1.0 / (1 + x * x) * sp;
+		return  1.0 / (1.0 + x * x) * s;
 	}
 }
